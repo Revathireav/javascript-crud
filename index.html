@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Bootstrap Example</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+		<link rel="stylesheet" type="text/css" href="style.css">
+	</head>
+	<body>
+		<h2 class="text-center">Simple CRUD operations</h2>
+		<div id="getselectedids" style="display: none;"></div>
+		<div class="d-flex justify-content-center"> 
+			<div class="spinner-border" role="status" id="loading"> 
+				<span class="sr-only">Loading...</span> 
+			</div> 
+		</div> 
+		<div class="row">
+			<div class="col-md-12">
+				<!-- To Delete Record -->
+				<button class="btn btn-outline-danger float-right delete-btn" onclick="deleteRow();"><i class="fas fa-trash"></i> Delete</button>
+				<!-- To Edit Record -->
+				<button class="btn btn-outline-warning float-right edit-btn"  data-toggle="modal" data-target="#editModal"><i class="fas fa-edit"></i> Edit</button>
+				<!-- To Add Record -->
+				<button class="btn btn-outline-primary float-right add-btn" data-toggle="modal" data-target="#createModal"><i class="fas fa-plus-circle"></i> Add</button>
+			</div>
+		</div>
+		<table id="pager" class="table table-hover wp-list-table widefat striped posts">
+			<tr> 
+			<th style="width: 5%";><!-- <input type="checkbox" class="chkbx-hdr" / --></th>
+			<th style="width: 5%";>ID</th> 
+			<th style="width: 5%";>UserID</th> 
+			<th style="width: 20%";>Title</th> 
+			<th style="width: 40%";> Description</th> 
+		</tr>   
+		</table> 
+		<div id="pageNavPosition" class="pager-nav float-right"></div>
+			<!-- Modal -->
+		<div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="createModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="createModalLabel">Create Record</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<form class="needs-validation" id="myForm" novalidate>
+							<div class="form-group">
+								<label for="exampleInputid1">id</label>
+								<input type="text"  class="form-control" id="exampleInputid1"   placeholder="Enter id" required name="id" >
+								<div class="invalid-feedback">
+									Please enter a Id
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="exampleInputUsername1">UserID</label>
+								<select class="form-control" id="exampleInputUserid1" name="userid" required>
+									<option selected="true" disabled="true">Select UserID</option>
+									<option value="1">1</option>
+									<option value="2">2</option>
+									<option value="3">3</option>
+									<option value="4">4</option>
+									<option value="5">5</option>
+									<option value="6">6</option>
+									<option value="7">7</option>
+									<option value="8">8</option>
+									<option value="9">9</option>
+									<option value="10">10</option>
+								</select>
+								<div class="invalid-feedback">
+									Please enter a valid email address
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="exampleInputtitle1">Title</label>
+								<input type="text"  class="form-control" id="exampleInputtitle1"   placeholder="Enter Title" required name="title" >
+								<div class="invalid-feedback">
+									Please enter a Title
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="exampleInputbody1">Description</label>
+								<textarea class="form-control" id="exampleInputdescription1" placeholder="Enter Description" name="body" required></textarea>
+								<div class="invalid-feedback">
+									Please enter a description
+								</div>
+							</div>
+							<button type="submit" id="submit" class="btn btn-primary">Submit</button>
+						</form>
+					</div>
+					<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- End of Create Modal -->
+
+		<!-- Edit Modal -->
+		<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="createModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="createModalLabel">Edit Record</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<form class="needs-validation" id="myeditForm" novalidate>
+							<div class="form-group" style="display: none;">
+								<label for="exampleInputid1">id</label>
+								<input type="text"  class="form-control editid" id="exampleInputid1"   placeholder="Enter id" required name="id"   >
+								<div class="invalid-feedback">
+									Please enter a Id
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="exampleInputUsername1">UserID</label>
+								<select class="form-control edituserid" id="exampleInputUserid1" name="userid" required>
+									<option selected="true" disabled="true">Select UserID</option>
+									<option value="1">1</option>
+									<option value="2">2</option>
+									<option value="3">3</option>
+									<option value="4">4</option>
+									<option value="5">5</option>
+									<option value="6">6</option>
+									<option value="7">7</option>
+									<option value="8">8</option>
+									<option value="9">9</option>
+									<option value="10">10</option>
+								</select>
+								<div class="invalid-feedback">
+									Please enter a valid email address
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="exampleInputtitle1">Title</label>
+								<input type="text"  class="form-control edittitle" id="exampleInputtitle1"   placeholder="Enter Title" required name="title" >
+								<div class="invalid-feedback">
+									Please enter a Title
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="exampleInputdescription1">Description</label>
+								<textarea class="form-control editbody" id="exampleInputdescription1" placeholder="Enter Description" name="body" required></textarea>
+								<div class="invalid-feedback">
+									Please enter a description
+								</div>
+							</div>
+							<button type="submit" id="submit" class="btn btn-primary">Update</button>
+						</form>
+					</div>
+					<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- End of Edit Modal -->
+	</body>
+<script src="app.js"></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+	//delete
+	function deletedata(){
+		// Instantiating new EasyHTTP class 
+	const http = new DeleteHTTP; 
+	  var $row = $('#getselectedids').html(); 
+	// Update Post 
+	http.delete('https://jsonplaceholder.typicode.com/posts/'+ $row +'') 
+	  
+	// Resolving promise for response data 
+	.then(data => console.log(data)) 
+	  
+	// Resolving promise for error 
+	.catch(err => console.log(err)); 
+	  
+	console.log('response deleted...'); 
+	}
+</script>
+<script type="text/javascript">
+	function deleteRow() {
+  document.querySelectorAll('#pager .select:checked').forEach(e => {
+    e.parentNode.parentNode.remove()
+  });
+}
+</script>
