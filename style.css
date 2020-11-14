@@ -1,7 +1,7 @@
 body { padding: 50px; background-color: #fff; color: #24292e; font-family: "Poppins", -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.5; }
 	.pager-nav { margin: 16px 0; }
 	.pager-nav span { display: inline-block; padding: 4px 8px; margin: 1px; cursor: pointer; font-size: 14px; background-color: #FFFFFF; border: 1px solid #e1e1e1; border-radius: 3px; box-shadow: 0 1px 1px rgba(0,0,0,.04); }
-	.pager-nav span:hover, .pager-nav .pg-selected { background-color: #f9f9f9; border: 1px solid #CCCCCC; }
+	.pager-nav span:hover, .pager-nav .pg-selected { background-color: #acacac; border: 1px solid #CCCCCC; }
 	.add-btn, .edit-btn, .delete-btn{ margin-bottom: 20px;  }
 	.add-btn, .edit-btn { margin-right: 10px;}
 	/* modal validation */
@@ -9,3 +9,6 @@ body { padding: 50px; background-color: #fff; color: #24292e; font-family: "Popp
 	.invalid input:required:invalid { background: #BE4C54; }
 	/* Mark valid inputs during .invalid state */
 	.invalid input:required:valid { background: #17D654; }
+	.toast{
+		background-color: rgb(221 247 248 / 85%) !important;
+	}
