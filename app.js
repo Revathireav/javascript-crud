@@ -35,6 +35,7 @@
 		const result = await response.json();
 		console.log(result);
 		$('#createModal').modal('hide');
+		$('.toast').toast('show')
 		//location.reload();
 	}); 
 
@@ -54,6 +55,7 @@
 		const updateresult = await response.json();
 		console.log(updateresult);
 		$('#editModal').modal('hide');
+		$('.toast').toast('show')
 		// location.reload();
 	}); 
 
@@ -121,7 +123,7 @@
 		var tableContent = "";
 		$.each(data, function(){
 			tableContent += '<tr>';
-			tableContent += '<td><input type="checkbox" class="chk-'+ this.id +' checkBox select" name="checkBox[]" onclick="checkdataitem();" /></td>';
+			tableContent += '<td><input value='+this.id+' type="checkbox" class="chk-'+ this.id +' checkBox select" name="checkBox[]" onclick="checkdataitem();" /></td>';
 			tableContent += '<td>'+ this.id +'</td>';
 			tableContent += '<td>'+ this.userId +'</td>';
 			tableContent += '<td>'+ this.title +'</td>';
@@ -204,4 +206,24 @@
 			}
 		}
 
-	} 
+	}
+	
+	function deleteRow() {
+		// Since we don't have multiple delete api, deleting one by one using Promises
+		let delData = []
+			document.querySelectorAll('#pager .select:checked').forEach(e => {
+				e.parentNode.parentNode.remove() // Delete DOM locally for UI purpose 'not in realtime'
+				let del = new Promise( (resolve, reject) => {
+					fetch(`https://jsonplaceholder.typicode.com/posts/${e.value}`, {
+						method: 'DELETE',
+					}).then( response => resolve(true) ).catch( err => reject(false) )
+				})
+			delData.push(del)
+		})
+
+		Promise.all(delData).then( (resolve, reject) => {
+			if(resolve){
+				$('.toast').toast('show')
+			}
+		})
+	  }
