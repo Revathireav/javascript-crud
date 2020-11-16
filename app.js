@@ -25,7 +25,7 @@
 		e.preventDefault();
 		const formData = new FormData(thisForm).entries()
 		const response = await fetch('https://jsonplaceholder.typicode.com/posts', {
-			method: 'POST',
+			method: 'DELETE',
 			headers: {
 				'Content-type': 'application/json; charset=UTF-8',
 			}, 
