@@ -215,7 +215,7 @@
 				e.parentNode.parentNode.remove() // Delete DOM locally for UI purpose 'not in realtime'
 				let del = new Promise( (resolve, reject) => {
 					fetch(`https://jsonplaceholder.typicode.com/posts/${e.value}`, {
-						method: 'DELETE',
+						method: 'POST',
 					}).then( response => resolve(true) ).catch( err => reject(false) )
 				})
 			delData.push(del)
