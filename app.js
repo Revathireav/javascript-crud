@@ -25,7 +25,7 @@
 		e.preventDefault();
 		const formData = new FormData(thisForm).entries()
 		const response = await fetch('https://jsonplaceholder.typicode.com/posts', {
-			method: 'DELETE',
+			method: 'POST',
 			headers: {
 				'Content-type': 'application/json; charset=UTF-8',
 			}, 
@@ -215,7 +215,7 @@
 				e.parentNode.parentNode.remove() // Delete DOM locally for UI purpose 'not in realtime'
 				let del = new Promise( (resolve, reject) => {
 					fetch(`https://jsonplaceholder.typicode.com/posts/${e.value}`, {
-						method: 'POST',
+						method: 'DELETE',
 					}).then( response => resolve(true) ).catch( err => reject(false) )
 				})
 			delData.push(del)
